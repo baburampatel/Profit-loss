@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profit & Loss Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #27445D;
+            color: #EFE9D5;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #497D74;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #71BBB2;
+        }
+
+        .input-group {
+            margin: 1rem 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #EFE9D5;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            background: #71BBB2;
+            color: #27445D;
+            font-size: 1rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: #71BBB2;
+            color: #27445D;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #EFE9D5;
+        }
+
+        #result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.2rem;
+            display: none;
+        }
+
+        .profit { background: #2ecc71; }
+        .loss { background: #e74c3c; }
+        .neutral { background: #71BBB2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Profit & Loss Calculator</h1>
+        
+        <div class="input-group">
+            <label for="costPrice">Cost Price (₹)</label>
+            <input type="number" id="costPrice" placeholder="Enter cost price">
+        </div>
+
+        <div class="input-group">
+            <label for="sellingPrice">Selling Price (₹)</label>
+            <input type="number" id="sellingPrice" placeholder="Enter selling price">
+        </div>
+
+        <button onclick="calculate()">Calculate</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function calculate() {
+            // Get input values
+            const costPrice = parseFloat(document.getElementById('costPrice').value);
+            const sellingPrice = parseFloat(document.getElementById('sellingPrice').value);
+
+            // Get result div
+            const resultDiv = document.getElementById('result');
+
+            // Validate inputs
+            if (isNaN(costPrice) || isNaN(sellingPrice)) {
+                alert("Please enter valid numbers!");
+                return;
+            }
+
+            // Calculate profit/loss
+            let resultText = '';
+            let resultClass = '';
+
+            if (sellingPrice > costPrice) {
+                const profit = sellingPrice - costPrice;
+                const profitPercentage = ((profit / costPrice) * 100).toFixed(2);
+                resultText = `Profit: ₹${profit} (${profitPercentage}%)`;
+                resultClass = 'profit';
+            } else if (sellingPrice < costPrice) {
+                const loss = costPrice - sellingPrice;
+                const lossPercentage = ((loss / costPrice) * 100).toFixed(2);
+                resultText = `Loss: ₹${loss} (${lossPercentage}%)`;
+                resultClass = 'loss';
+            } else {
+                resultText = "No Profit, No Loss";
+                resultClass = 'neutral';
+            }
+
+            // Display result
+            resultDiv.style.display = 'block';
+            resultDiv.className = resultClass;
+            resultDiv.innerHTML = resultText;
+        }
+    </script>
+</body>
+</html>
